@@ -1,8 +1,14 @@
 tasks.withType(Jar).allObjects { jar ->
    jar.merge = { fileCollection -> 
-      fileCollection.files.each { archiveFile ->
-         configure(jar) {
-            from zipTree(archiveFile)
+      // only resolve the file collection if the jar will be executed. This is important if people merge from dependency configurations. Otherwise the configuration would be always resolved
+      // when the script is evaluated.
+      gradle.taskGraph.whenReady { graph ->
+         if (graph.hasTask(jar.path)) {
+            fileCollection.files.each { archiveFile ->
+               configure(jar) {
+                  from zipTree(archiveFile)
+               }
+            }
          }
       }
    }
