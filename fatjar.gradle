@@ -1,0 +1,10 @@
+tasks.withType(Jar).allObjects { jar ->
+   jar.merge = { fileCollection -> 
+      fileCollection.files.each { archiveFile ->
+         configure(jar) {
+            from zipTree(archiveFile)
+         }
+      }
+   }
+}
+
