@@ -1,0 +1,12 @@
+def allSpringJars = tasks.withType(Jar).matching { task -> task.archiveName.contains('spring') }
+
+allSpringJars.allObjects { task ->
+    task.metaInf {
+        from 'src/icons/rod.jpg'
+    }
+    task.doLast {
+        ant.checksum(file: task.archivePath, todir: mkdir("$buildDir/spring-checksums"))
+    }
+}
+
+task springJars(dependsOn: allSpringJars)
