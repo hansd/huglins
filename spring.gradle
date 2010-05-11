@@ -1,0 +1,27 @@
+repositories {
+    mavenRepo urls: 'http://gradle.artifactoryonline.com/gradle/demo'
+}
+
+configurations {
+    spring
+}
+
+dependencies {
+    spring group: 'com.mycomp.spring', name: 'license', version: '1.0', classifier: 'rod', ext: 'jpg'
+    spring group: 'com.mycomp.spring', name: 'license', version: '1.0', classifier: 'rods-car', ext: 'jpg'
+}
+
+def allSpringJars = tasks.withType(Jar).matching { task -> task.archiveName.contains('spring')}
+
+allSpringJars.allObjects { task ->
+    configure(task) {
+        metaInf {
+            from configurations.spring
+        }
+        doLast {
+            ant.checksum(file: archivePath, todir: archivePath.parentFile)
+        }
+    }
+}
+
+task springJars(dependsOn: allSpringJars)
