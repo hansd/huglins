@@ -1,0 +1,7 @@
+task hello << {
+    println 'Hello from Poznan'
+}
+
+noOfDigits = { text ->
+    println text.length()
+}
