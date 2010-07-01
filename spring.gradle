@@ -8,7 +8,6 @@ configurations {
 
 dependencies {
     spring group: 'com.mycomp.spring', name: 'rod', version: '1.0', ext: 'jpg'
-    spring group: 'com.mycomp.spring', name: 'rods-car', version: '1.0', ext: 'jpg'
 }
 
 def allSpringJars = tasks.withType(Jar).matching { task -> task.archiveName.contains('spring')}
