@@ -12,7 +12,7 @@ dependencies {
 
 def allSpringJars = tasks.withType(Jar).matching { task -> task.archiveName.contains('spring')}
 
-allSpringJars.allObjects { task ->
+allSpringJars.all { task ->
     configure(task) {
         metaInf {
             from configurations.spring
