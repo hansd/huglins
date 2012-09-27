@@ -1,26 +1,26 @@
 repositories {
-    mavenRepo urls: 'http://gradle.artifactoryonline.com/gradle/demo'
+    maven {
+		url 'http://repo.gradle.org/gradle/demo'
+	}
 }
 
 configurations {
-    spring
+	spring
 }
 
 dependencies {
-    spring group: 'com.mycomp.spring', name: 'rod', version: '1.0', ext: 'jpg'
+	spring 'com.mycomp.spring:rod:1.0@jpg'
 }
 
-def allSpringJars = tasks.withType(Jar).matching { task -> task.archiveName.contains('spring')}
+def allSpringJars = tasks.withType(Jar).matching { jar -> jar.archiveName.contains('spring') }
 
-allSpringJars.all { task ->
-    configure(task) {
-        metaInf {
-            from configurations.spring
-        }
-        doLast {
-            ant.checksum(file: archivePath, todir: archivePath.parentFile)
-        }
-    }
+allSpringJars.all {
+	metaInf {
+		from configurations.spring
+	}
+	doLast {
+		ant.checksum(file: archivePath, todir: archivePath.parentFile)
+	}
 }
 
 task springJars(dependsOn: allSpringJars)
